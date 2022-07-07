@@ -1,0 +1,146 @@
+actionlib==1.13.2
+altgraph==0.17.2
+angles==1.9.13
+bondpy==1.8.6
+brotlipy==0.7.0
+camera-calibration==1.16.0
+camera-calibration-parsers==1.12.0
+catkin==0.8.10
+certifi==2022.5.18.1
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+click @ file:///tmp/build/80754af9/click_1646038465422/work
+configparser @ file:///tmp/build/80754af9/configparser_1614614799251/work
+controller-manager==0.19.5
+controller-manager-msgs==0.19.5
+cryptography @ file:///tmp/build/80754af9/cryptography_1652083738073/work
+cv-bridge==1.16.0
+cycler==0.11.0
+diagnostic-analysis==1.11.0
+diagnostic-common-diagnostics==1.11.0
+diagnostic-updater==1.11.0
+dynamic-reconfigure==1.7.2
+empy==3.3.4
+et-xmlfile==1.1.0
+fonttools==4.33.3
+future==0.18.2
+gazebo_plugins==2.9.2
+gazebo_ros==2.9.2
+gencpp==0.6.5
+geneus==3.0.0
+genlisp==0.4.18
+genmsg==0.5.16
+gennodejs==2.0.2
+genpy==0.6.15
+gevent @ file:///tmp/build/80754af9/gevent_1628273677693/work
+greenlet @ file:///tmp/build/80754af9/greenlet_1628887725296/work
+idna @ file:///tmp/build/80754af9/idna_1637925883363/work
+image-geometry==1.16.0
+interactive-markers==1.12.0
+itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
+
+joblib==1.1.0
+joint-state-publisher==1.15.1
+joint-state-publisher-gui==1.15.1
+kiwisolver==1.4.2
+laser_geometry==1.6.7
+MarkupSafe @ file:///tmp/build/80754af9/markupsafe_1621528148836/work
+matplotlib==3.5.2
+message-filters==1.15.14
+minio==7.1.0
+numpy==1.22.3
+openpyxl==3.0.9
+packaging==21.3
+pandas==1.4.2
+Pillow==9.1.1
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+pyinstaller==5.1
+pyinstaller-hooks-contrib==2022.7
+
+pyparsing==3.0.9
+PyQt5==5.15.6
+PyQt5-Qt5==5.15.2
+PyQt5-sip==12.10.1
+PySocks @ file:///tmp/build/80754af9/pysocks_1605305779399/work
+python-dateutil==2.8.2
+python-qt-binding==0.4.4
+pytz==2022.1
+qt-dotgraph==0.4.2
+qt-gui==0.4.2
+qt-gui-cpp==0.4.2
+qt-gui-py-common==0.4.2
+
+resource_retriever==1.12.7
+retrying @ file:///Users/ktietz/demo/mc3/conda-bld/retrying_1629465456590/work
+rosbag==1.15.14
+rosboost-cfg==1.15.8
+rosclean==1.15.8
+roscreate==1.15.8
+rosgraph==1.15.14
+roslaunch==1.15.14
+roslib==1.15.8
+roslint==0.12.0
+roslz4==1.15.14
+rosmake==1.15.8
+rosmaster==1.15.14
+rosmsg==1.15.14
+rosnode==1.15.14
+rosparam==1.15.14
+rospy==1.15.14
+rosservice==1.15.14
+rostest==1.15.14
+rostopic==1.15.14
+rosunit==1.15.8
+roswtf==1.15.14
+rqt-moveit==0.5.10
+rqt-reconfigure==0.5.5
+rqt-robot-dashboard==0.5.8
+rqt-robot-monitor==0.5.14
+rqt-rviz==0.7.0
+rqt_action==0.4.9
+rqt_bag==0.5.1
+rqt_bag_plugins==0.5.1
+rqt_console==0.4.11
+rqt_dep==0.4.12
+rqt_graph==0.4.14
+rqt_gui==0.5.3
+rqt_gui_py==0.5.3
+rqt_image_view==0.4.16
+rqt_launch==0.4.9
+rqt_logger_level==0.4.11
+rqt_msg==0.4.10
+rqt_nav_view==0.5.7
+rqt_plot==0.4.13
+rqt_pose_view==0.5.11
+rqt_publisher==0.4.10
+rqt_py_common==0.5.3
+rqt_py_console==0.4.10
+rqt_robot_steering==0.5.12
+rqt_runtime_monitor==0.5.9
+rqt_service_caller==0.4.10
+rqt_shell==0.4.11
+rqt_srv==0.4.9
+rqt_tf_tree==0.6.3
+rqt_top==0.4.10
+rqt_topic==0.4.13
+rqt_web==0.4.10
+rviz==1.14.14
+scenariogeneration==0.3.7
+scikit-learn==1.1.0
+scipy==1.8.0
+sensor-msgs==1.13.1
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+sklearn==0.0
+smach==2.5.0
+smach-ros==2.5.0
+smclib==1.8.6
+tf==1.13.2
+tf-conversions==1.13.2
+tf2-geometry-msgs==0.7.5
+tf2-kdl==0.7.5
+tf2-py==0.7.5
+tf2-ros==0.7.5
+threadpoolctl==3.1.0
+topic-tools==1.15.14
+xacro==1.14.13
+zope.event==4.5.0
+zope.interface @ file:///tmp/build/80754af9/zope.interface_1625035545636/work

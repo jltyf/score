@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=0.0.4
+Name=exam
+Icon=/home/server1/dist/cicv-icon.png
+Exec=/home/server1/dist/setup
+Terminal=flase
+StartupNotify=true
+Type=Application
