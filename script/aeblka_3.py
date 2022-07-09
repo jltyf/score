@@ -1,5 +1,5 @@
-import xml.etree.ElementTree as ET
 import math
+import xml.etree.ElementTree as ET
 
 from button_tool.py.vtdTools import Weather
 
@@ -18,6 +18,7 @@ def get_score(xml_path, weather_result):
         for player in root.iter('Player'):
             for des in player.iter('Description'):
                 if des.attrib['Name'] == 'Ego':
+                    ego_car_type = des.attrib['Type']
                     for ego_init in player.iter('Init'):
                         for ego_data in ego_init:
                             if ego_data.tag == 'Speed':
@@ -26,6 +27,7 @@ def get_score(xml_path, weather_result):
                                 ego_direction = float(ego_data.attrib['Direction'])
 
                 elif des.attrib['Name'] == 'veh_1':
+                    veh_car_type = des.attrib['Type']
                     for veh_init in player.iter('Init'):
                         for veh_data in veh_init:
                             if veh_data.tag == 'Speed':
@@ -39,18 +41,23 @@ def get_score(xml_path, weather_result):
                     veh_acc = float(speed_change.attrib['Rate'])
                     veh_acc_target = float(speed_change.attrib['Target'])
 
-        if ego_speed == 60 / 3.6 and ego_direction == math.radians(5):
-            score += 2
-            xml_score_detail = f'{item}.测试车初始速度等于60km/h且车头方向偏离车道5°,得2分;<br/>'
+        if ego_speed == 60 / 3.6 and ego_direction == math.radians(5) and ego_car_type == 'CICV_Car':
+            score += 1
+            xml_score_detail = f'{item}.测试车(Ego)车型为CICV_Car,以60km/h,初始车头方向偏离车道5°,进入弯道行驶,且不驶出本车道,得1分;<br/>'
         else:
-            xml_score_detail = f'{item}.不满足测试车初始速度等于60km/h且车头方向偏离车道5°,不得分;<br/>'
+            xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以60km/h,初始车头方向偏离车道5°,进入弯道行驶,且不驶出本车道,不得分;<br/>'
         item += 1
-        if veh_speed == 40 / 3.6 and 1129.64 <= veh_start_x <= 1131.59 and 225 <= veh_start_y <= 325 and veh_acc == 3 and veh_acc_target == 0:
+        if 20 / 3.6 <= veh_speed <= 40 / 3.6 and 1129.64 <= veh_start_x <= 1131.59 and 225 <= veh_start_y <= 325 and veh_acc <= 5 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_red':
             score += 2
-            xml_score_detail = xml_score_detail + f'{item}.障碍车位于测试车出弯位置前方100-200m范围内且在同一车道且以初速度40km/h，减速度3m/s²减速至静止,得2分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方100-200m且在同一车道,以初速度20-40km/h,减速度不超过5m/s²,减速至静止,得1分;<br/>'
         else:
-            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车位于测试车出弯位置前方100-200m范围内且在同一车道且以初速度40km/h，减速度3m/s²减速至静止,不得分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方100-200m且在同一车道,以初速度20-40km/h,减速度不超过5m/s²,减速至静止,不得分;<br/>'
         item += 1
         return score, xml_score_detail, weather_score, item
     except:
-        return 0, '场景文件格式错误，场景修改得0分;<br/>', weather_score, 1
+        return 0, '场景文件格式错误，场景搭建得0分;<br/>', weather_score, 1
+
+
+if __name__ == '__main__':
+    score = get_score('/home/tang/xml/pro/real/aeblka_3.xml', Weather.SNOW)
+    print(score)

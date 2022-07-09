@@ -19,15 +19,15 @@ def get_score(xml_path, weather_result):
         for player in root.iter('Player'):
             for des in player.iter('Description'):
                 if des.attrib['Name'] == 'Ego':
+                    ego_car_type = des.attrib['Type']
                     for ego_init in player.iter('Init'):
                         for ego_data in ego_init:
                             if ego_data.tag == 'Speed':
                                 ego_speed = float(ego_data.attrib['Value'])
                             elif ego_data.tag == 'PosAbsolute':
                                 ego_direction = float(ego_data.attrib['Direction'])
-                                ego_start_x = float(ego_data.attrib['X'])
-
                 elif des.attrib['Name'] == 'Car_1':
+                    veh_car_type = des.attrib['Type']
                     for veh_init in player.iter('Init'):
                         for veh_data in veh_init:
                             if veh_data.tag == 'Speed':
@@ -35,31 +35,30 @@ def get_score(xml_path, weather_result):
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
                                     distance = float(veh_data.attrib['Distance'])
+        for player_actions in root.iter('PlayerActions'):
+            if player_actions.attrib['Player'] == 'Car_1':
+                for speed_change in player_actions.iter('SpeedChange'):
+                    veh_acc = float(speed_change.attrib['Rate'])
+                    veh_acc_target = float(speed_change.attrib['Target'])
 
-        if ego_speed == 80 / 3.6:
-            xml_score_detail = f'{item}.测试车初始速度等于80km/h,得1分;<br/>'
+        if ego_speed == 80 / 3.6 and ego_direction == math.radians(0) and ego_car_type == 'CICV_Car':
+            xml_score_detail = f'{item}.测试车(Ego)车型为CICV_Car,初始车头方向偏离车道0°,以80km/h的初速度在直道上行驶,得1分;<br/>'
             score += 1
         else:
-            xml_score_detail = f'{item}.测试车初始速度不等于80km/h,不得分;<br/>'
+            xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,初始车头方向偏离车道0°,以80km/h的初速度在直道上行驶,不得分;<br/>'
         item += 1
-        if ego_direction == math.radians(0):
+        if 100 <= abs(
+                distance) <= 150 and veh_car_type == 'Audi_A3_2009_blue' and 30 / 3.6 <= veh_speed <= 50 / 3.6 and veh_acc <= 5 and veh_acc_target == 0:
             score += 1
-            xml_score_detail = xml_score_detail + f'{item}.测试车初始车头方向偏离车道0°,得1分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.在同一车道上,测试车前方100-150m有车辆(Car_1),车型为Audi_A3_2009_blue,以初速度30-50km/h,减速度不超过5m/s²,减速至静止,得1分;<br/>'
         else:
-            xml_score_detail = xml_score_detail + f'{item}.测试车初始车头方向偏离车道不等于0°,不得分;<br/>'
-        item += 1
-        if veh_speed == 50 / 3.6:
-            score += 1
-            xml_score_detail = xml_score_detail + f'{item}.障碍车初速度等于50km/h,得1分;<br/>'
-        else:
-            xml_score_detail = xml_score_detail + f'{item}.障碍车初速度不等于50km/h,不得分;<br/>'
-        item += 1
-        if abs(distance) == 100:
-            score += 1
-            xml_score_detail = xml_score_detail + f'{item}.障碍车位于测试车前方100m,得1分;<br/>'
-        else:
-            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车位于测试车前方100m,不得分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.不满足在同一车道上,测试车前方100-150m有车辆(Car_1),车型为Audi_A3_2009_blue,以初速度30-50km/h,减速度不超过5m/s²,减速至静止,不得分;<br/>'
         item += 1
         return score, xml_score_detail, weather_score, item
     except:
-        return 0, '场景文件格式错误，场景修改得0分;<br/>', weather_score, 1
+        return 0, '场景文件格式错误，场景搭建得0分;<br/>', weather_score, 1
+
+
+if __name__ == '__main__':
+    score = get_score('/home/tang/xml/test/real/aeb_2.xml', Weather.SNOW)
+    print(score)
