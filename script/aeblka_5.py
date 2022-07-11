@@ -36,7 +36,7 @@ def get_score(xml_path, weather_result):
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
                                     distance = float(veh_data.attrib['Distance'])
-                                    veh_lane = int(veh_data.attrib['lane'])
+                                    veh_lane = int(veh_data.attrib['Lane'])
         for player_actions in root.iter('PlayerActions'):
             if player_actions.attrib['Player'] == 'veh_1':
                 for speed_change in player_actions.iter('SpeedChange'):
@@ -44,7 +44,7 @@ def get_score(xml_path, weather_result):
                 for ttc_about in player_actions.iter('TTCRelative'):
                     ttc_pivot = ttc_about.attrib['Pivot']
                     ttc = float(ttc_about.attrib['TTC'])
-                for lane_change in player_actions.iter('TTCRelative'):
+                for lane_change in player_actions.iter('LaneChange'):
                     veh_lane_change = int(lane_change.attrib['Direction'])
 
         if ego_speed == 80 / 3.6 and ego_direction == math.radians(0) and ego_car_type == 'CICV_Car':
@@ -53,8 +53,8 @@ def get_score(xml_path, weather_result):
         else:
             xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道0°,沿直道匀速行驶,且不驶出本车道,不得分;<br/>'
         item += 1
-        if 20 / 3.6 <= veh_speed <= 30 / 3.6 and veh_lane == 1 and 100 <= distance <= 150 and ttc_pivot == 'Ego' and \
-                ttc >= 3 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_red':
+        if 19.99 / 3.6 <= veh_speed <= 30 / 3.6 and veh_lane == 1 and 100 <= distance <= 150 and ttc_pivot == 'Ego' and \
+                ttc >= 3 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_blue':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于3秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,得1分;<br/>'
         else:
@@ -66,5 +66,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/xml/pro/real/aeblka_5.xml', Weather.RAIN)
+    score = get_score('/home/tang/Documents/aeblka_5_1.xml', Weather.RAIN)
     print(score)

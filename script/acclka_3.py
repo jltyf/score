@@ -48,7 +48,7 @@ def get_score(xml_path, weather_result):
         else:
             xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道-5°,沿直道行驶,且不驶出本车道,不得分;<br/>'
         item += 1
-        if 20 / 3.6 <= veh_speed <= 70 / 3.6 and 150 <= abs(
+        if 19.99 / 3.6 <= veh_speed <= 70.01 / 3.6 and 150 <= abs(
                 distance) <= 200 and veh_acc <= 6 and veh_acc_target == 10 / 3.6 and veh_car_type == 'Audi_A3_2009_red':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.测试车前方150-200m有车辆(veh_1),车型为Audi_A3_2009_red,以初速度20-70km/h,减速度不超过6m/s²,减速至10km/h,得1分;<br/>'
