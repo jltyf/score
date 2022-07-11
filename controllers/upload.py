@@ -41,7 +41,7 @@ def get_config(config_path):
                 camera_dict = {'sensor_id': 16, 'pos_x': 1000 * float(pos_xyz[0]), 'pos_y': 1000 * float(pos_xyz[1]),
                                'pos_z': 1000 * float(pos_xyz[2]),
                                'pos_h': float(pos_hpr[0]), 'pos_p': float(pos_hpr[1]), 'pos_r': float(pos_hpr[2])}
-            elif sensor.get('name') == 'Front_Lidar':
+            elif sensor.get('name') == 'Lidar':
                 pos_xyz = sensor.get('posXyz').split(' ')
                 pos_hpr = sensor.get('posHpr').split(' ')
                 lidar_dict = {'sensor_id': 21, 'pos_x': 1000 * float(pos_xyz[0]), 'pos_y': 1000 * float(pos_xyz[1]),

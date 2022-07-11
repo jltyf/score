@@ -54,11 +54,11 @@ def get_score(xml_path, weather_result):
             xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道0°,沿直道匀速行驶,且不驶出本车道,不得分;<br/>'
         item += 1
         if 19.99 / 3.6 <= veh_speed <= 30 / 3.6 and veh_lane == 1 and 100 <= distance <= 150 and ttc_pivot == 'Ego' and \
-                ttc >= 3 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_blue':
+                ttc >= 5 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_blue':
             score += 1
-            xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于3秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,得1分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于5秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,得1分;<br/>'
         else:
-            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于3秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,不得分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于5秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,不得分;<br/>'
         item += 1
         return score, xml_score_detail, weather_score, item
     except:
