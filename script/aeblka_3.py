@@ -49,7 +49,7 @@ def get_score(xml_path, weather_result):
         item += 1
         if 19.99 / 3.6 <= veh_speed <= 40.01 / 3.6 and 1129.64 <= veh_start_x <= 1131.59 and 225 <= veh_start_y <= 325 \
                 and veh_acc <= 5 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_red':
-            score += 2
+            score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方100-200m且在同一车道,以初速度20-40km/h,减速度不超过5m/s²,减速至静止,得1分;<br/>'
         else:
             xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方100-200m且在同一车道,以初速度20-40km/h,减速度不超过5m/s²,减速至静止,不得分;<br/>'

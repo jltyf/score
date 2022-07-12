@@ -66,5 +66,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/Documents/aeblka_5_1.xml', Weather.RAIN)
+    score = get_score('/home/tang/upload.xml', Weather.RAIN)
     print(score)
