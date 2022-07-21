@@ -5,6 +5,19 @@ from button_tool.py.vtdTools import Weather
 
 
 def get_score(xml_path, weather_result):
+    ego_car_type = None
+    veh_car_type = None
+    ttc_pivot = None
+    ego_speed = 500
+    ego_direction = 500
+    veh_speed = 500
+    veh_acc_target = 500
+    veh_lane = 1000
+    ttc = 0
+    veh_lane_change = 1000
+    veh_lane_change_time = 1000
+    veh_acc = 1000
+
     require_weather = Weather.RAIN
     if require_weather == weather_result:
         weather_score = True
@@ -40,12 +53,14 @@ def get_score(xml_path, weather_result):
         for player_actions in root.iter('PlayerActions'):
             if player_actions.attrib['Player'] == 'veh_1':
                 for speed_change in player_actions.iter('SpeedChange'):
+                    veh_acc = float(speed_change.attrib['Rate'])
                     veh_acc_target = float(speed_change.attrib['Target'])
                 for ttc_about in player_actions.iter('TTCRelative'):
                     ttc_pivot = ttc_about.attrib['Pivot']
                     ttc = float(ttc_about.attrib['TTC'])
                 for lane_change in player_actions.iter('LaneChange'):
                     veh_lane_change = int(lane_change.attrib['Direction'])
+                    veh_lane_change_time = float(lane_change.attrib['Time'])
 
         if ego_speed == 80 / 3.6 and ego_direction == math.radians(0) and ego_car_type == 'CICV_Car':
             score += 1
@@ -54,11 +69,12 @@ def get_score(xml_path, weather_result):
             xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道0°,沿直道匀速行驶,且不驶出本车道,不得分;<br/>'
         item += 1
         if 19.99 / 3.6 <= veh_speed <= 30 / 3.6 and veh_lane == 1 and 100 <= distance <= 150 and ttc_pivot == 'Ego' and \
-                ttc >= 5 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_blue':
+                ttc >= 5 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_blue' and \
+                veh_lane_change_time == 1 and veh_acc <= 1:
             score += 1
-            xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于5秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,得1分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于5秒时,障碍车以20-30km/h的初速度开始变道,并切入到自车前方,换道时间为1s,减速度不超过1m/s²,减速至静止,得1分;<br/>'
         else:
-            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于5秒时,障碍车以20-30km/h的初速度,开始变道切入自车前方,减速至静止,不得分;<br/>'
+            xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_blue,位于Ego车左侧车道的前方,与Ego车相距100-150m,且当TTC不小于5秒时,障碍车以20-30km/h的初速度开始变道,并切入到自车前方,换道时间为1s,减速度不超过1m/s²,减速至静止,不得分;<br/>'
         item += 1
         return score, xml_score_detail, weather_score, item
     except:
@@ -66,5 +82,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/upload.xml', Weather.RAIN)
+    score = get_score('/home/tang/aeblka_5.xml', Weather.RAIN)
     print(score)

@@ -5,6 +5,15 @@ from button_tool.py.vtdTools import Weather
 
 
 def get_score(xml_path, weather_result):
+    ego_car_type = None
+    veh_car_type = None
+    ego_speed = 500
+    ego_direction = 500
+    veh_speed = 500
+    veh_start_x = 10000
+    veh_start_y = 10000
+    veh_acc = 500
+    veh_acc_target = 500
     require_weather = Weather.SNOW
     if require_weather == weather_result:
         weather_score = True
