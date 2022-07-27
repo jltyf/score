@@ -70,6 +70,9 @@ def upload2minio(student_id, token, exam_id, weather_result):
     minio_xml_path = os.path.join(minio_path, xml_path.split('/')[-1])
     minio_launch_path = os.path.join(minio_path, launch_path.split('/')[-1])
 
+    log_path = os.path.join(os.path.expanduser('~'), 'dist/scpMsg.log')
+    minio_log_path = os.path.join(minio_path, log_path.split('/')[-1])
+    client.fput_object(setting_data['bucket name'], minio_log_path, log_path)
     client.fput_object(setting_data['bucket name'], minio_xml_path, xml_path)
     client.fput_object(setting_data['bucket name'], minio_launch_path, launch_path)
 
@@ -83,6 +86,7 @@ def upload2minio(student_id, token, exam_id, weather_result):
                                                         "part1_desc": xml_score_detail,
                                                         "part2_score": launch_score,
                                                         "part2_desc": launch_detail,
+                                                        "log_path": minio_log_path,
                                                         "configurations": configurations})
     if json.loads(res.text)['code'] == 200:
         demo_path = os.path.join(xml_root_path, 'TrafficDemo.xml')
@@ -94,6 +98,7 @@ def upload2minio(student_id, token, exam_id, weather_result):
         shutil.copy(temp_path, demo_path)
         shutil.rmtree(launch_root_path, ignore_errors=True)
         os.mkdir(launch_root_path)
+        print(score_detail)
         return True
     else:
         return False

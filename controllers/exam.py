@@ -36,7 +36,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         self.setupUi(self)
         self.token = None
         self.exam_data = None
-        self.exit.clicked.connect(self.__del__)
+        # self.exit.clicked.connect(self.__del__)
+        self.exit.clicked.connect(self.closeEvent)
         self.vtd_ip = "127.0.0.1"
         self.vtd_port = 48179
         self.vtd_start_script = os.path.join(os.path.expanduser('~'), setting_data['vtd start script'])
@@ -54,6 +55,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         self.algo_quit = add_style(self.algo_quit)
         self.exit = add_style(self.exit)
         self.minio_launch_path = None
+        self.close_flag = True
         background_img = QPixmap(os.path.join(os.path.expanduser('~'), setting_data['background1']))
         background_img = background_img.scaled(self.width(), self.height())
         palette = QPalette()
@@ -65,27 +67,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         self.logo.setObjectName("logo")
         self.logo.setPixmap(QPixmap(os.path.join(os.path.expanduser('~'), setting_data['logo'])))
 
+    def closeEvent(self, event):
+        if self.close_flag:
+            messageBox = QMessageBox(QMessageBox.Question, self.tr("提示"), self.tr("退出后修改的部分将被全部重置,是否确认退出程序？"),
+                                     QMessageBox.NoButton,
+                                     self)
+            yr_btn = messageBox.addButton(self.tr("是"), QMessageBox.YesRole)
+            messageBox.addButton(self.tr("否"), QMessageBox.NoRole)
+            messageBox.exec_()
+            if messageBox.clickedButton() == yr_btn:
+                if self.vtd_start_flag:
+                    self.wd.stop()
+                    self.wd.join(2)
+                    os.chdir(os.path.join(os.path.expanduser('~'), 'VIRES/VTD.2021.3/bin/'))
+                    stopVtd(self.vtd_stop_script)
+                    os.chdir(self.abs_path)
+                result = get_result("docker inspect --format='{{.State.Running}}' ros-docker")
+                if result:
+                    os.popen(cmd=setting_data['stop docker'])
+                    os.popen(cmd=setting_data['remove docker'])
+                sys.exit(0)
+            else:
+                try:
+                    event.ignore()
+                except AttributeError:
+                    return
+
+        # 是否确认退出此程序？退出后修改的部分将被全部重置！
+
     def __new__(cls, *args, **kwargs):
         if not hasattr(MainWindow, "_instance"):
             with MainWindow._instance_lock:
                 if not hasattr(MainWindow, "_instance"):
                     MainWindow._instance = QtWidgets.QMainWindow.__new__(cls)
         return MainWindow._instance
-
-    def __del__(self):
-        from controllers.login import LoginWindow
-        login_window = LoginWindow(self)
-        login_window.show()
-        self.close()
-        if self.vtd_start_flag:
-            os.chdir(os.path.join(os.path.expanduser('~'), 'VIRES/VTD.2021.3/bin/'))
-            stopVtd(self.vtd_stop_script)
-            os.chdir(self.abs_path)
-        command = setting_data['quit algo']
-        os.system(command=command)
-        init_vtd()
-        python = sys.executable
-        os.execl(python, python, *sys.argv)
 
     def set_exam(self, student_id, token):
         if self.submit_button.text() == '开始考试':
@@ -121,6 +136,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
                     self.weather_result = self.wd.latestWeather
                 exam_result = upload2minio(student_id, token, self.exam_data['score_func'], self.weather_result)
                 if exam_result:
+                    self.close_flag = False
                     QMessageBox.information(self, "考试结束", "考题提交成功,考试完成!")
                     self.close()
                     os.chdir(os.path.join(os.path.expanduser('~'), 'VIRES/VTD.2021.3/bin/'))
@@ -137,6 +153,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
 
     def change_window(self):
         init_vtd()
+        log_path = os.path.join(os.path.expanduser('~'), 'dist/scpMsg.log')
+        if os.path.exists(log_path):
+            os.remove(log_path)
         self.submit_button.setGeometry(QtCore.QRect(650, 800, 200, 50))
         _translate = QtCore.QCoreApplication.translate
         font = QtGui.QFont()
@@ -186,6 +205,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         font.setPointSize(12)
         self.submit_button.setText(_translate('ExamWindow', '交卷'))
         self.setFixedSize(self.width(), self.height())
+        os.popen(cmd=setting_data['remove docker'])
 
     def start_vtd_event(self):
         self.vtd_start_flag = True
@@ -268,6 +288,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         result = get_result("docker inspect --format='{{.State.Running}}' ros-docker")
         if result:
             QMessageBox.information(self, "启动", "算法启动成功!")
+        else:
+            os.system(command=setting_data['remove docker'])
+            time.sleep(0.5)
+            if get_result("docker inspect --format='{{.State.Running}}' ros-docker"):
+                QMessageBox.information(self, "启动", "算法启动成功!")
+            else:
+                QMessageBox.information(self, "错误", "算法启动失败,请重试!")
         self.algo_start = add_style(self.algo_start)
         self.algo_quit = add_style(self.algo_quit)
         self.configurations = add_style(self.configurations)
