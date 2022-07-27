@@ -156,6 +156,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         log_path = os.path.join(os.path.expanduser('~'), 'dist/scpMsg.log')
         if os.path.exists(log_path):
             os.remove(log_path)
+        with open(log_path, 'a+', encoding='utf-8') as f:
+            pass
         self.submit_button.setGeometry(QtCore.QRect(650, 800, 200, 50))
         _translate = QtCore.QCoreApplication.translate
         font = QtGui.QFont()
