@@ -101,26 +101,18 @@ def detectWeatherChange(scpMsg):
     #   <Precipitation intensity="0.500000" type="rain" />
     #   <Road effectScale="0.500000" state="dry" />
     # </Environment>
-
-    try:
-        Environment = ET.XML(scpMsg)
-        if Environment.tag == "Environment":
-            print("\r", end="")
-            # print(scpMsg)
-            Precipitation = Environment.find("Precipitation")
-            if Precipitation is not None:
-                weather = Precipitation.attrib["type"]
-                print(weather)
-                if weather == "rain":
-                    return Weather.RAIN
-                elif weather == "snow":
-                    return Weather.SNOW
-                elif weather == "none":
-                    return Weather.DRY
-
-    except ET.ParseError as e:
-        # it happens when VTD sends invalid xml-format scp msg
-        # print("VTD sucks:", e)
+    # print(scpMsg)
+    log_path = os.path.join(os.path.expanduser('~'), 'dist/scpMsg.log')
+    if 'Environment' in scpMsg:
+        with open(log_path, 'a+', encoding='utf-8') as f:
+            log = f.read()
+            new_log = log + scpMsg
+            f.write(new_log)
+    if 'rain' in scpMsg:
+        return Weather.RAIN
+    elif 'snow' in scpMsg:
+        return Weather.SNOW
+    else:
         pass
 
 
@@ -300,9 +292,9 @@ def detectSensor(scpMsg):
         detectedSensorsInfo.append(firstSensorInfo)
 
         restScp = scpMsg[firstSensorEndIndex:]
-        if restScp and restScp!=' ':
+        if restScp and restScp != ' ':
             secondSensorBeginIndex = restScp.find("<Sensor name=")
-            if secondSensorBeginIndex>=0:
+            if secondSensorBeginIndex >= 0:
                 secondSensorEndIndex = restScp.find("</Sensor>") + 9
                 secondSensorInfo = restScp[secondSensorBeginIndex:secondSensorEndIndex]
                 detectedSensorsInfo.append(secondSensorInfo)
