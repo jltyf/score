@@ -232,10 +232,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
             self.weather_result = self.wd.latestWeather
             self.sensors_info = self.wd.latestSensorsInfo
             self.vtd_start_flag = False
-            os.chdir(os.path.join(os.path.expanduser('~'), 'VIRES/VTD.2021.3/bin/'))
-            stopVtd(self.vtd_stop_script)
-            os.chdir(self.abs_path)
-            time.sleep(0.5)
+        os.chdir(os.path.join(os.path.expanduser('~'), 'VIRES/VTD.2021.3/bin/'))
+        stopVtd(self.vtd_stop_script)
+        os.chdir(self.abs_path)
+        time.sleep(0.5)
         self.vtd_quit = add_style(self.vtd_quit)
         self.vtd_start = add_style(self.vtd_start)
 
