@@ -5,6 +5,11 @@ from button_tool.py.vtdTools import Weather
 
 
 def get_score(xml_path, weather_result):
+    ego_speed = 500
+    ego_direction = 500
+    veh_speed = 500
+    veh_acc_target = 500
+    veh_acc = 1000
     require_weather = Weather.SNOW
     if require_weather == weather_result:
         weather_score = True
@@ -40,12 +45,6 @@ def get_score(xml_path, weather_result):
                 for speed_change in player_actions.iter('SpeedChange'):
                     veh_acc = float(speed_change.attrib['Rate'])
                     veh_acc_target = float(speed_change.attrib['Target'])
-        # for player in root.iter('PlayerActions'):
-        #     if player.attrib['Player'] == 'Ego':
-        #         for action in player.iter('Action'):
-        #             for scp in action.iter('SCP'):
-        #                 require_weather = scp.text.split('type="')[1][:4]
-
 
         if ego_speed == 80 / 3.6:
             xml_score_detail = f'{item}.测试车初始速度等于80km/h,得2分;<br/>'

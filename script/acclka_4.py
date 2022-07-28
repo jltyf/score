@@ -17,6 +17,8 @@ def get_score(xml_path, weather_result):
     veh_lane_change = 1000
     veh_lane_change_time = 1000
     veh_acc = 1000
+    veh_start_x = 0
+    veh_start_y = 0
     require_weather = Weather.RAIN
     if require_weather == weather_result:
         weather_score = True
@@ -71,5 +73,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/xml/pro/real/acclka_4.xml', Weather.RAIN)
+    score = get_score('/media/tang/sblive/upload.xml', Weather.RAIN)
     print(score)

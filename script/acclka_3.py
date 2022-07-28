@@ -7,15 +7,10 @@ from button_tool.py.vtdTools import Weather
 def get_score(xml_path, weather_result):
     ego_car_type = None
     veh_car_type = None
-    ttc_pivot = None
     ego_speed = 500
     ego_direction = 500
     veh_speed = 500
     veh_acc_target = 500
-    veh_lane = 1000
-    ttc = 0
-    veh_lane_change = 1000
-    veh_lane_change_time = 1000
     veh_acc = 1000
     require_weather = Weather.SNOW
     if require_weather == weather_result:
