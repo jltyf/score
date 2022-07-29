@@ -98,7 +98,6 @@ def upload2minio(student_id, token, exam_id, weather_result):
         shutil.copy(temp_path, demo_path)
         shutil.rmtree(launch_root_path, ignore_errors=True)
         os.mkdir(launch_root_path)
-        print(score_detail)
         return True
     else:
         return False
