@@ -60,7 +60,7 @@ def get_score(xml_path, weather_result):
                                 veh_x = float(veh_data.attrib['X'])
                                 veh_y = float(veh_data.attrib['Y'])
                                 distance = float(veh_x - ego_x)
-                                if -1.175 <= veh_y <= -2.825:
+                                if -2.825 <= veh_y <= -1.175:
                                     veh_lane = 1
 
         for player_actions in root.iter('PlayerActions'):
@@ -95,5 +95,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/aeblka_5.xml', Weather.RAIN)
+    score = get_score('/home/server/Documents/upload_2.xml', Weather.RAIN)
     print(score)
