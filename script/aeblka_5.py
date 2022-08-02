@@ -17,6 +17,10 @@ def get_score(xml_path, weather_result):
     veh_lane_change = 1000
     veh_lane_change_time = 1000
     veh_acc = 1000
+    ego_x = 100000
+    ego_y = 100000
+    veh_x = 100000
+    veh_y = 100000
 
     require_weather = Weather.RAIN
     if require_weather == weather_result:
@@ -39,6 +43,8 @@ def get_score(xml_path, weather_result):
                                 ego_speed = float(ego_data.attrib['Value'])
                             elif ego_data.tag == 'PosAbsolute':
                                 ego_direction = float(ego_data.attrib['Direction'])
+                                ego_x = float(ego_data.attrib['X'])
+                                ego_y = float(ego_data.attrib['Y'])
 
                 elif des.attrib['Name'] == 'veh_1':
                     veh_car_type = des.attrib['Type']
@@ -50,6 +56,13 @@ def get_score(xml_path, weather_result):
                                 if veh_data.attrib['Pivot'] == 'Ego':
                                     distance = float(veh_data.attrib['Distance'])
                                     veh_lane = int(veh_data.attrib['Lane'])
+                            elif veh_data.tag == 'PosAbsolute':
+                                veh_x = float(veh_data.attrib['X'])
+                                veh_y = float(veh_data.attrib['Y'])
+                                distance = float(veh_x - ego_x)
+                                if -1.175 <= veh_y <= -2.825:
+                                    veh_lane = 1
+
         for player_actions in root.iter('PlayerActions'):
             if player_actions.attrib['Player'] == 'veh_1':
                 for speed_change in player_actions.iter('SpeedChange'):
@@ -62,11 +75,11 @@ def get_score(xml_path, weather_result):
                     veh_lane_change = int(lane_change.attrib['Direction'])
                     veh_lane_change_time = float(lane_change.attrib['Time'])
 
-        if ego_speed == 80 / 3.6 and ego_direction == math.radians(0) and ego_car_type == 'CICV_Car':
+        if ego_speed == 80 / 3.6 and ego_direction == math.radians(5) and ego_car_type == 'CICV_Car':
             score += 1
-            xml_score_detail = f'{item}.测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道0°,沿直道匀速行驶,且不驶出本车道,得1分;<br/>'
+            xml_score_detail = f'{item}.测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道5°,沿直道匀速行驶,且不驶出本车道,得1分;<br/>'
         else:
-            xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道0°,沿直道匀速行驶,且不驶出本车道,不得分;<br/>'
+            xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以80km/h,初始车头方向偏离车道5°,沿直道匀速行驶,且不驶出本车道,不得分;<br/>'
         item += 1
         if 19.99 / 3.6 <= veh_speed <= 30 / 3.6 and veh_lane == 1 and 100 <= distance <= 150 and ttc_pivot == 'Ego' and \
                 ttc >= 5 and veh_lane_change == -1 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_blue' and \

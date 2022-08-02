@@ -10,6 +10,10 @@ def get_score(xml_path, weather_result):
     ego_speed = 500
     ego_direction = 500
     veh_speed = 500
+    ego_x = 100000
+    ego_y = 100000
+    veh_x = 100000
+    veh_y = 100000
     require_weather = Weather.RAIN
     if require_weather == weather_result:
         weather_score = True
@@ -31,6 +35,8 @@ def get_score(xml_path, weather_result):
                                 ego_speed = float(ego_data.attrib['Value'])
                             elif ego_data.tag == 'PosAbsolute':
                                 ego_direction = float(ego_data.attrib['Direction'])
+                                ego_x = float(ego_data.attrib['X'])
+                                ego_y = float(ego_data.attrib['Y'])
 
                 elif des.attrib['Name'] == 'Car_1':
                     veh_car_type = des.attrib['Type']
@@ -41,6 +47,10 @@ def get_score(xml_path, weather_result):
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
                                     distance = float(veh_data.attrib['Distance'])
+                                elif veh_data.tag == 'PosAbsolute':
+                                    veh_x = float(veh_data.attrib['X'])
+                                    veh_y = float(veh_data.attrib['Y'])
+                                    distance = float(veh_x - ego_x)
         if ego_speed == 80 / 3.6 and ego_car_type == 'CICV_Car' and ego_direction == math.radians(0):
             xml_score_detail = f'{item}.测试车(Ego)车型为CICV_Car,初始车头方向偏离车道0°,以80km/h的初速度在直道上行驶,得1分;<br/>'
             score += 1

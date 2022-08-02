@@ -10,6 +10,10 @@ def get_score(xml_path, weather_result):
     veh_speed = 500
     veh_acc_target = 500
     veh_acc = 1000
+    ego_x = 100000
+    ego_y = 100000
+    veh_x = 100000
+    veh_y = 100000
     ego_car_type = None
     veh_car_type = None
     require_weather = Weather.SNOW
@@ -33,6 +37,8 @@ def get_score(xml_path, weather_result):
                                 ego_speed = float(ego_data.attrib['Value'])
                             elif ego_data.tag == 'PosAbsolute':
                                 ego_direction = float(ego_data.attrib['Direction'])
+                                ego_x = float(ego_data.attrib['X'])
+                                ego_y = float(ego_data.attrib['Y'])
 
                 elif des.attrib['Name'] == 'veh_1':
                     veh_car_type = des.attrib['Type']
@@ -43,6 +49,11 @@ def get_score(xml_path, weather_result):
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
                                     distance = float(veh_data.attrib['Distance'])
+                            elif veh_data.tag == 'PosAbsolute':
+                                veh_x = float(veh_data.attrib['X'])
+                                veh_y = float(veh_data.attrib['Y'])
+                                distance = float(veh_x - ego_x)
+
         for player_actions in root.iter('PlayerActions'):
             if player_actions.attrib['Player'] == 'veh_1':
                 for speed_change in player_actions.iter('SpeedChange'):

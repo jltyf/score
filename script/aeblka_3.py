@@ -12,8 +12,12 @@ def get_score(xml_path, weather_result):
     veh_speed = 500
     veh_acc_target = 500
     veh_acc = 1000
+    ego_x = 100000
+    ego_y = 100000
     veh_start_x = 0
     veh_start_y = 0
+    veh_lane = 100000
+    distance = 100000
     require_weather = Weather.SNOW
     if require_weather == weather_result:
         weather_score = True
@@ -34,6 +38,8 @@ def get_score(xml_path, weather_result):
                                 ego_speed = float(ego_data.attrib['Value'])
                             elif ego_data.tag == 'PosAbsolute':
                                 ego_direction = float(ego_data.attrib['Direction'])
+                                ego_x = float(ego_data.attrib['X'])
+                                ego_y = float(ego_data.attrib['Y'])
 
                 elif des.attrib['Name'] == 'veh_1':
                     veh_car_type = des.attrib['Type']
@@ -44,6 +50,11 @@ def get_score(xml_path, weather_result):
                             elif veh_data.tag == 'PosAbsolute':
                                 veh_start_x = float(veh_data.attrib['X'])
                                 veh_start_y = float(veh_data.attrib['Y'])
+                            elif veh_data.tag == 'PosRelative':
+                                if veh_data.attrib['Pivot'] == 'Ego':
+                                    distance = float(veh_data.attrib['Distance'] - (ego_x - 905))
+                                    veh_lane = int(veh_data.attrib['Lane'])
+
         for player_actions in root.iter('PlayerActions'):
             if player_actions.attrib['Player'] == 'veh_1':
                 for speed_change in player_actions.iter('SpeedChange'):
@@ -57,6 +68,10 @@ def get_score(xml_path, weather_result):
             xml_score_detail = f'{item}.不满足测试车(Ego)车型为CICV_Car,以60km/h,初始车头方向偏离车道5°,进入弯道行驶,且不驶出本车道,不得分;<br/>'
         item += 1
         if 19.99 / 3.6 <= veh_speed <= 40.01 / 3.6 and 1129.64 <= veh_start_x <= 1131.59 and 225 <= veh_start_y <= 325 \
+                and veh_acc <= 5 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_red':
+            score += 1
+            xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方100-200m且在同一车道,以初速度20-40km/h,减速度不超过5m/s²,减速至静止,得1分;<br/>'
+        elif 19.99 / 3.6 <= veh_speed <= 40.01 / 3.6 and 391.35 <= distance <= 491.35 and veh_lane == 0 \
                 and veh_acc <= 5 and veh_acc_target == 0 and veh_car_type == 'Audi_A3_2009_red':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方100-200m且在同一车道,以初速度20-40km/h,减速度不超过5m/s²,减速至静止,得1分;<br/>'
