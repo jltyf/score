@@ -289,11 +289,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         time.sleep(1)
         result = get_result("docker inspect --format='{{.State.Running}}' ros-docker")
         if result:
+            time.sleep(5)
             QMessageBox.information(self, "启动", "算法启动成功!")
         else:
             os.system(command=setting_data['remove docker'])
             time.sleep(0.5)
             if get_result("docker inspect --format='{{.State.Running}}' ros-docker"):
+                time.sleep(5)
                 QMessageBox.information(self, "启动", "算法启动成功!")
             else:
                 QMessageBox.information(self, "错误", "算法启动失败,请重试!")

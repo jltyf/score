@@ -50,7 +50,7 @@ def get_score(xml_path, weather_result):
                                 veh_start_y = float(veh_data.attrib['Y'])
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
-                                    distance = float(veh_data.attrib['Distance'] - (ego_x - 905))
+                                    distance = float(veh_data.attrib['Distance']) - (905 - ego_x)
                                     veh_lane = int(veh_data.attrib['Lane'])
 
         if ego_speed == 80 / 3.6 and ego_direction == math.radians(5) and ego_car_type == 'CICV_Car':

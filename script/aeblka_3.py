@@ -52,7 +52,7 @@ def get_score(xml_path, weather_result):
                                 veh_start_y = float(veh_data.attrib['Y'])
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
-                                    distance = float(veh_data.attrib['Distance'] - (ego_x - 905))
+                                    distance = float(veh_data.attrib['Distance']) - (905 - ego_x)
                                     veh_lane = int(veh_data.attrib['Lane'])
 
         for player_actions in root.iter('PlayerActions'):
@@ -84,5 +84,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/xml/pro/real/aeblka_3.xml', Weather.SNOW)
+    score = get_score('/home/server/Documents/upload.xml', Weather.RAIN)
     print(score)

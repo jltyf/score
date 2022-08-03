@@ -56,7 +56,7 @@ def get_score(xml_path, weather_result):
                                 veh_start_y = float(veh_data.attrib['Y'])
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
-                                    distance = float(veh_data.attrib['Distance'] - (ego_x - 905))
+                                    distance = float(veh_data.attrib['Distance']) - (955 - ego_x)
                                     veh_lane = int(veh_data.attrib['Lane'])
 
         for player_actions in root.iter('PlayerActions'):
@@ -83,10 +83,11 @@ def get_score(xml_path, weather_result):
             xml_score_detail = xml_score_detail + f'{item}.不满足障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方50-100m且在同一车道,以初速度20-70km/h,减速度不超过6m/s2,减速至10km/h,不得分;<br/>'
         item += 1
         return score, xml_score_detail, weather_score, item
-    except:
+    except Exception as e:
+        print(e)
         return 0, '场景文件格式错误，场景搭建得0分;<br/>', weather_score, 1
 
 
 if __name__ == '__main__':
-    score = get_score('/media/tang/sblive/upload.xml', Weather.RAIN)
+    score = get_score('/home/server/Documents/upload.xml', Weather.RAIN)
     print(score)
