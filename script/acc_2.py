@@ -47,10 +47,10 @@ def get_score(xml_path, weather_result):
                             elif veh_data.tag == 'PosRelative':
                                 if veh_data.attrib['Pivot'] == 'Ego':
                                     distance = float(veh_data.attrib['Distance'])
-                                elif veh_data.tag == 'PosAbsolute':
-                                    veh_x = float(veh_data.attrib['X'])
-                                    veh_y = float(veh_data.attrib['Y'])
-                                    distance = float(veh_x - ego_x)
+                            elif veh_data.tag == 'PosAbsolute':
+                                veh_x = float(veh_data.attrib['X'])
+                                veh_y = float(veh_data.attrib['Y'])
+                                distance = float(veh_x - ego_x)
         if ego_speed == 80 / 3.6 and ego_car_type == 'CICV_Car' and ego_direction == math.radians(0):
             xml_score_detail = f'{item}.测试车(Ego)车型为CICV_Car,初始车头方向偏离车道0°,以80km/h的初速度在直道上行驶,得1分;<br/>'
             score += 1
@@ -69,5 +69,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/tang/xml/test/real/acc_2.xml', Weather.RAIN)
+    score = get_score('/home/server/Documents/upload.xml', Weather.RAIN)
     print(score)

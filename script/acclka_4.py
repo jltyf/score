@@ -75,7 +75,7 @@ def get_score(xml_path, weather_result):
                 and veh_acc <= 6 and veh_acc_target == 10 / 3.6 and veh_car_type == 'Audi_A3_2009_red':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方50-100m且在同一车道,以初速度20-70km/h,减速度不超过6m/s2,减速至10km/h,得1分;<br/>'
-        elif 19.99 / 3.6 <= veh_speed <= 70.01 / 3.6 and 341.35 <= distance <= 391.35 and veh_lane == 0 \
+        elif 19.99 / 3.6 <= veh_speed <= 70.01 / 3.6 and 291.35 <= distance <= 341.35 and veh_lane == 0 \
                 and veh_acc <= 6 and veh_acc_target == 10 / 3.6 and veh_car_type == 'Audi_A3_2009_red':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方50-100m且在同一车道,以初速度20-70km/h,减速度不超过6m/s2,减速至10km/h,得1分;<br/>'
@@ -89,5 +89,5 @@ def get_score(xml_path, weather_result):
 
 
 if __name__ == '__main__':
-    score = get_score('/home/server/Documents/upload.xml', Weather.RAIN)
+    score = get_score('/home/server/Documents/acclka_4_2.xml', Weather.RAIN)
     print(score)

@@ -62,7 +62,7 @@ def get_score(xml_path, weather_result):
         if 9.99 / 3.6 <= veh_speed <= 70.01 / 3.6 and 1129.64 <= veh_start_x <= 1131.59 and 175 <= veh_start_y <= 225 and veh_car_type == 'Audi_A3_2009_red':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方50-100m且在同一车道,以10-70km/h的速度定速行驶,得1分;<br/>'
-        elif 9.99 / 3.6 <= veh_speed <= 70.01 / 3.6 and 341.35 <= distance <= 391.35 and veh_lane == 0 and veh_car_type == 'Audi_A3_2009_red':
+        elif 9.99 / 3.6 <= veh_speed <= 70.01 / 3.6 and 291.35 <= distance <= 341.35 and veh_lane == 0 and veh_car_type == 'Audi_A3_2009_red':
             score += 1
             xml_score_detail = xml_score_detail + f'{item}.障碍车(veh_1)车型为Audi_A3_2009_red,位于Ego出弯位置前方50-100m且在同一车道,以10-70km/h的速度定速行驶,得1分;<br/>'
         else:
