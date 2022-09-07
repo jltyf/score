@@ -11,6 +11,7 @@ import sys
 from configparser import ConfigParser
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication
 
 cfg = ConfigParser()
 cfg.read(os.path.join(os.path.join(os.path.expanduser('~'), 'dist'), "setting.ini"))
@@ -20,7 +21,10 @@ setting_data = dict(cfg.items("dev"))
 class Ui_ExamWindow(object):
     def setupUi(self, ExamWindow):
         ExamWindow.setObjectName("ExamWindow")
-        ExamWindow.resize(1600, 900)
+        height_mul = QApplication.desktop().screenGeometry().height() / 1080
+        width_mul = QApplication.desktop().screenGeometry().width() / 1960
+
+        ExamWindow.resize(1600 * height_mul, 900 * width_mul)
         ExamWindow.setAnimated(True)
         self.centralwidget = QtWidgets.QWidget(ExamWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -67,7 +71,7 @@ class Ui_ExamWindow(object):
                                      "QPushButton{border-radius:10px}"
                                      "QPushButton{padding:1px 1px}")
         self.exit = QtWidgets.QPushButton(self.centralwidget)
-        self.exit.setGeometry(QtCore.QRect(1500, 11, 80, 40))
+        self.exit.setGeometry(QtCore.QRect(1500 * height_mul, 11 * width_mul, 80 * height_mul, 40 * width_mul))
         self.exit.setStyleSheet("QPushButton{color:white}"
                                 "QPushButton{background-color:rgb(42,93,198)}"
                                 "QPushButton{border:1px}"
@@ -83,7 +87,7 @@ class Ui_ExamWindow(object):
         self.exit.setFont(font)
         self.exit.setObjectName("exit")
         self.student_id = QtWidgets.QLabel(self.centralwidget)
-        self.student_id.setGeometry(QtCore.QRect(1400, 10, 130, 50))
+        self.student_id.setGeometry(QtCore.QRect(1400 * height_mul, 10 * width_mul, 130 * height_mul, 50 * width_mul))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -94,7 +98,7 @@ class Ui_ExamWindow(object):
         self.student_id.setFont(font)
         self.student_id.setObjectName("student_id")
         self.label1 = QtWidgets.QLabel(self.centralwidget)
-        self.label1.setGeometry(QtCore.QRect(1350, 10, 50, 50))
+        self.label1.setGeometry(QtCore.QRect(1350 * height_mul, 10 * width_mul, 50 * height_mul, 50 * width_mul))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -105,7 +109,7 @@ class Ui_ExamWindow(object):
         self.label1.setFont(font)
         self.label1.setObjectName("label1")
         self.submit_button = QtWidgets.QPushButton(self.centralwidget)
-        self.submit_button.setGeometry(QtCore.QRect(650, 800, 200, 50))
+        self.submit_button.setGeometry(QtCore.QRect(650 * height_mul, 800 * width_mul, 200 * height_mul, 50 * width_mul))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -118,14 +122,14 @@ class Ui_ExamWindow(object):
                                          "QPushButton{border-radius:10px}"
                                          "QPushButton{padding:1px 1px}")
         self.exam_desc = QtWidgets.QLabel(self.centralwidget)
-        self.exam_desc.setGeometry(QtCore.QRect(50, 130, 1450, 600))
+        self.exam_desc.setGeometry(QtCore.QRect(50 * height_mul, 130 * width_mul, 1450 * height_mul, 600 * width_mul))
         self.exam_desc.setLocale(QtCore.QLocale(QtCore.QLocale.Chinese, QtCore.QLocale.China))
         self.exam_desc.setText("")
         self.exam_desc.setObjectName("exam_desc")
 
 
         self.version = QtWidgets.QLabel(self.centralwidget)
-        self.version.setGeometry(QtCore.QRect(15, 830, 200, 100))
+        self.version.setGeometry(QtCore.QRect(15 * height_mul, 830 * width_mul, 200 * height_mul, 100 * width_mul))
         self.version.setLocale(QtCore.QLocale(QtCore.QLocale.Chinese, QtCore.QLocale.China))
         font = QtGui.QFont()
         font.setPointSize(10)
