@@ -71,6 +71,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
             client.fget_object(setting_data['bucket name'], setting_data['exam desc path'], image_path)
             exam_img = QPixmap(image_path)
             exam_window.exam_desc.setPixmap(exam_img)
+            exam_window.exam_desc.setScaledContents(True)
             exam_window.submit_button.clicked.connect(functools.partial(exam_window.set_exam, student_id, token))
             exam_window.show()
             self.close()

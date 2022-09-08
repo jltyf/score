@@ -22,9 +22,9 @@ class Ui_LoginWindow(object):
     def setupUi(self, LoginWindow):
         self.LoginWindow = LoginWindow
         LoginWindow.setObjectName("LoginWindow")
-        height_mul = QApplication.desktop().screenGeometry().height()/1080
-        width_mul = QApplication.desktop().screenGeometry().width()/1960
-        LoginWindow.resize(1600 * height_mul, 900 * width_mul)
+        height_mul = QApplication.desktop().screenGeometry().height() / 1080
+        width_mul = QApplication.desktop().screenGeometry().width() / 1920
+        LoginWindow.resize(int(1600 * width_mul), int(900 * height_mul))
         # LoginWindow.resize(1600, 900)
         background_img = QPixmap(os.path.join(os.path.expanduser('~'), setting_data['login background']))
         background_img = background_img.scaled(LoginWindow.width(), LoginWindow.height())
@@ -43,8 +43,10 @@ class Ui_LoginWindow(object):
         font.setPointSize(13)
         self.label1.setFont(font)
         self.label1.setObjectName("label1")
-        self.label1.setGeometry(QtCore.QRect(940 * height_mul, 313 * width_mul, 27 * height_mul, 26 * width_mul))
+        self.label1.setGeometry(
+            QtCore.QRect(int(940 * width_mul), int(313 * height_mul), int(27 * width_mul), int(26 * height_mul)))
         self.label1.setPixmap(QPixmap(os.path.join(os.path.expanduser('~'), setting_data['user img'])))
+        self.label1.setScaledContents(True)
         self.student_id = QtWidgets.QLineEdit(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -52,7 +54,8 @@ class Ui_LoginWindow(object):
         sizePolicy.setHeightForWidth(self.student_id.sizePolicy().hasHeightForWidth())
         self.student_id.setSizePolicy(sizePolicy)
         self.student_id.setObjectName("student_id")
-        self.student_id.setGeometry(QtCore.QRect(980 * height_mul, 300 * width_mul, 200 * height_mul, 50 * width_mul))
+        self.student_id.setGeometry(
+            QtCore.QRect(int(980 * width_mul), int(300 * height_mul), int(200 * width_mul), int(50 * height_mul)))
         self.student_id.setPlaceholderText('     请输入用户名')
         self.student_id.setStyleSheet("background:transparent;border-width:0;border-style:outset")
         self.label1_2 = QtWidgets.QLabel(self.centralwidget)
@@ -65,8 +68,10 @@ class Ui_LoginWindow(object):
         font.setPointSize(13)
         self.label1_2.setFont(font)
         self.label1_2.setObjectName("label1_2")
-        self.label1_2.setGeometry(QtCore.QRect(937 * height_mul, 413 * width_mul, 27 * height_mul, 26 * width_mul))
+        self.label1_2.setGeometry(
+            QtCore.QRect(int(937 * width_mul), int(413 * height_mul), int(27 * width_mul), int(26 * height_mul)))
         self.label1_2.setPixmap(QPixmap(os.path.join(os.path.expanduser('~'), setting_data['password img'])))
+        self.label1_2.setScaledContents(True)
         self.student_pwd = QtWidgets.QLineEdit(self.centralwidget)
         self.student_pwd.setEchoMode(QLineEdit.Password)
         self.student_pwd.setPlaceholderText('     请输入登录密码')
@@ -79,7 +84,8 @@ class Ui_LoginWindow(object):
         self.student_pwd.setSizePolicy(sizePolicy)
         self.student_pwd.setObjectName("student_pwd")
         self.student_pwd.setStyleSheet("background:transparent;border-width:0;border-style:outset")
-        self.student_pwd.setGeometry(QtCore.QRect(980 * height_mul, 400 * width_mul, 200 * height_mul, 50 * width_mul))
+        self.student_pwd.setGeometry(
+            QtCore.QRect(int(980 * width_mul), int(400 * height_mul), int(200 * width_mul), int(50 * height_mul)))
         self.login = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -90,7 +96,8 @@ class Ui_LoginWindow(object):
         font.setPointSize(13)
         self.login.setFont(font)
         self.login.setObjectName("login")
-        self.login.setGeometry(QtCore.QRect(968 * height_mul, 490 * width_mul, 224 * height_mul, 36 * width_mul))
+        self.login.setGeometry(
+            QtCore.QRect(int(968 * width_mul), int(490 * height_mul), int(224 * width_mul), int(36 * height_mul)))
         self.login.setStyleSheet("QPushButton{color:white}"
                                  "QPushButton{background-color:rgb(42,93,198)}")
         LoginWindow.setCentralWidget(self.centralwidget)

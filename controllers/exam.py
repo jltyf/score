@@ -65,9 +65,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         self.setPalette(palette)
 
         self.logo = QtWidgets.QLabel(self.centralwidget)
-        self.logo.setGeometry(QtCore.QRect(0, 0, 207 * self.height_mul, 51 * self.width_mul))
+        self.logo.setGeometry(QtCore.QRect(0, 0, int(207 * self.width_mul), int(51 * self.height_mul)))
         self.logo.setObjectName("logo")
         self.logo.setPixmap(QPixmap(os.path.join(os.path.expanduser('~'), setting_data['logo'])))
+        self.logo.setScaledContents(True)
+        self.setFixedSize(self.width(), self.height())
 
     def closeEvent(self, event):
         if self.close_flag:
@@ -124,7 +126,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
             client.fget_object(setting_data['bucket name'], request_data['desc_pic'], image_path)
             exam_img = QPixmap(image_path)
             self.exam_desc.setGeometry(
-                QtCore.QRect(50 * self.height_mul, 80 * self.width_mul, 1450 * self.height_mul, 600 * self.width_mul))
+                QtCore.QRect(int(50 * self.width_mul), int(80 * self.height_mul), int(1450 * self.width_mul),
+                             int(600 * self.height_mul)))
             self.exam_desc.setPixmap(exam_img)
         else:
             messageBox = QMessageBox(QMessageBox.Question, self.tr("提示"), self.tr("是否确认提交？"), QMessageBox.NoButton,
@@ -162,7 +165,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         with open(log_path, 'a+', encoding='utf-8') as f:
             pass
         self.submit_button.setGeometry(
-            QtCore.QRect(650 * self.height_mul, 800 * self.width_mul, 200 * self.height_mul, 50 * self.width_mul))
+            QtCore.QRect(int(650 * self.width_mul), int(800 * self.height_mul), int(200 * self.width_mul),
+                         int(50 * self.height_mul)))
         _translate = QtCore.QCoreApplication.translate
         font = QtGui.QFont()
         font.setPointSize(13)
@@ -172,44 +176,47 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         sizePolicy.setHeightForWidth(self.new_label1.sizePolicy().hasHeightForWidth())
 
         self.new_label1.setGeometry(
-            QtCore.QRect(180 * self.height_mul, 645 * self.width_mul, 150 * self.height_mul, 150 * self.width_mul))
+            QtCore.QRect(int(180 * self.width_mul), int(645 * self.height_mul), int(150 * self.width_mul),
+                         int(150 * self.height_mul)))
         self.new_label1.setSizePolicy(sizePolicy)
         self.new_label1.setFont(font)
         self.new_label1.setText(_translate("ExamWindow", "VTD操作"))
         self.vtd_start.setGeometry(
-            QtCore.QRect(300 * self.height_mul, 700 * self.width_mul, 100 * self.height_mul, 40 * self.width_mul))
+            QtCore.QRect(int(300 * self.width_mul), int(700 * self.height_mul), int(100 * self.width_mul),
+                         int(40 * self.height_mul)))
         self.vtd_start.setSizePolicy(sizePolicy)
         self.vtd_start.setFont(font)
         self.vtd_start.setText(_translate("ExamWindow", "启动"))
         self.vtd_start.clicked.connect(self.start_vtd_event)
         self.vtd_quit.setGeometry(
-            QtCore.QRect(500 * self.height_mul, 700 * self.width_mul, 100 * self.height_mul, 40 * self.width_mul))
+            QtCore.QRect(int(500 * self.width_mul), int(700 * self.height_mul), int(100 * self.width_mul),
+                         int(40 * self.height_mul)))
         self.vtd_quit.setSizePolicy(sizePolicy)
         self.vtd_quit.setFont(font)
         self.vtd_quit.setText(_translate("ExamWindow", "关闭"))
         self.vtd_quit.clicked.connect(self.quit_vtd_event)
 
-        # self.new_label2.setGeometry(QtCore.QRect(750, 695, 150, 150))
-        # self.new_label2.setFont(font)
-        # self.new_label2.setText(_translate("ExamWindow", "传感器配置"))
-
         self.new_label3.setGeometry(
-            QtCore.QRect(850 * self.height_mul, 645 * self.width_mul, 150 * self.height_mul, 150 * self.width_mul))
+            QtCore.QRect(int(850 * self.width_mul), int(645 * self.height_mul), int(150 * self.width_mul),
+                         int(150 * self.height_mul)))
         self.new_label3.setFont(font)
         self.new_label3.setText(_translate("ExamWindow", "算法"))
         self.algo_start.setGeometry(
-            QtCore.QRect(920 * self.height_mul, 700 * self.width_mul, 100 * self.height_mul, 40 * self.width_mul))
+            QtCore.QRect(int(920 * self.width_mul), int(700 * self.height_mul), int(100 * self.width_mul),
+                         int(40 * self.height_mul)))
         self.algo_start.setSizePolicy(sizePolicy)
         self.algo_start.setFont(font)
         self.algo_start.setText(_translate("ExamWindow", "启动"))
         self.algo_start.clicked.connect(self.start_algo_event)
         self.algo_quit.setGeometry(
-            QtCore.QRect(1120 * self.height_mul, 700 * self.width_mul, 100 * self.height_mul, 40 * self.width_mul))
+            QtCore.QRect(int(1120 * self.width_mul), int(700 * self.height_mul), int(100 * self.width_mul),
+                         int(40 * self.height_mul)))
         self.algo_quit.setSizePolicy(sizePolicy)
         self.algo_quit.setFont(font)
         self.algo_quit.setText(_translate("ExamWindow", "关闭"))
         self.configurations.setGeometry(
-            QtCore.QRect(1320 * self.height_mul, 700 * self.width_mul, 100 * self.height_mul, 40 * self.width_mul))
+            QtCore.QRect(int(1320 * self.width_mul), int(700 * self.height_mul), int(100 * self.width_mul),
+                         int(40 * self.height_mul)))
         self.configurations.setSizePolicy(sizePolicy)
         self.configurations.setFont(font)
         self.configurations.setText(_translate("ExamWindow", "编辑"))
@@ -217,7 +224,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ExamWindow):
         self.algo_quit.clicked.connect(self.quit_algo_event)
         font.setPointSize(12)
         self.submit_button.setText(_translate('ExamWindow', '交卷'))
-        self.setFixedSize(self.width(), self.height())
         os.popen(cmd=setting_data['remove docker'])
 
     def start_vtd_event(self):
